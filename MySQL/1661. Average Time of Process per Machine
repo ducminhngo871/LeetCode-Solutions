@@ -1,4 +1,21 @@
-#Answer: 
+Explanation:
+
+The question asked about the average time each machine takes to complete a process. Therefore, what we can do is that we can group by each machine, then find all of the "start" and "end" activity, combining them together. 
+
+First, we find the sum for all of the activity_type, however, when activity_type = "start" then the number is negative. 
+
+```
+SELECT machine_id, ROUND(SUM(CASE WHEN activity_type = "start" THEN -timestamp
+            WHEN activity_type = "end" THEN timestamp
+            END), 3)
+AS processing_time
+FROM Activity
+GROUP BY machine_id
+```
+
+After finding the total sum, then what we need to do is to find the average. The easy way we can do it is to find the distinct count for the process_id, since it can show the total count easily for each machine_id. The output will be:
+
+Answer: 
 
 SELECT machine_id, ROUND(SUM(CASE WHEN activity_type = "start" THEN -timestamp
             WHEN activity_type = "end" THEN timestamp
@@ -7,7 +24,7 @@ AS processing_time
 FROM Activity
 GROUP BY machine_id
 
-#Question: 
+Question: 
 
 Table: Activity
 
